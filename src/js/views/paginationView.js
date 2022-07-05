@@ -1,6 +1,5 @@
 import View from './View.js';
 import icons from 'url:../../img/icons.svg';
-import { RES_PER_PAGE } from '../config.js';
 
 class PaginationView extends View {
   _parentElement = document.querySelector('.pagination');
@@ -11,7 +10,6 @@ class PaginationView extends View {
       if (!btn) return;
 
       const goToPage = +btn.dataset.goto;
-
       handler(goToPage);
     });
   }
