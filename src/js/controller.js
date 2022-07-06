@@ -9,10 +9,7 @@ import addRecipeView from './views/addRecipeView.js';
 
 import 'core-js/stable';
 import 'regenerator-runtime/runtime';
-
-// if (module.hot) {
-//   module.hot.accept();
-// }
+import { async } from 'regenerator-runtime';
 
 const controlRecipes = async function () {
   try {
@@ -24,7 +21,7 @@ const controlRecipes = async function () {
     // 0) Update results view to mark selected search result
     resultsView.update(model.getSearchResultsPage());
 
-    // 1) Update bookmarks view
+    // 1) Updating bookmarks view
     bookmarksView.update(model.state.bookmarks);
 
     // 2) Loading recipe
@@ -41,21 +38,21 @@ const controlRecipes = async function () {
 const controlSearchResults = async function () {
   try {
     resultsView.renderSpinner();
+
     // 1) Get search query
     const query = searchView.getQuery();
     if (!query) return;
 
-    // 2) Load search result
+    // 2) Load search results
     await model.loadSearchResults(query);
 
     // 3) Render results
-    // resultsView.render(model.state.search.results);
     resultsView.render(model.getSearchResultsPage());
 
     // 4) Render initial pagination buttons
     paginationView.render(model.state.search);
   } catch (err) {
-    console.error(err);
+    console.log(err);
   }
 };
 
@@ -68,11 +65,10 @@ const controlPagination = function (goToPage) {
 };
 
 const controlServings = function (newServings) {
-  // 1) Update the recipe servings (in state)
+  // Update the recipe servings (in state)
   model.updateServings(newServings);
 
-  // 2) Update the recipe view
-  // recipeView.render(model.state.recipe);
+  // Update the recipe view
   recipeView.update(model.state.recipe);
 };
 
@@ -97,7 +93,7 @@ const controlAddRecipe = async function (newRecipe) {
     // Show loading spinner
     addRecipeView.renderSpinner();
 
-    // Upload new recipe data
+    // Upload the new recipe data
     await model.uploadRecipe(newRecipe);
     console.log(model.state.recipe);
 
@@ -133,10 +129,3 @@ const init = function () {
   addRecipeView.addHandlerUpload(controlAddRecipe);
 };
 init();
-// window.addEventListener('hashchange', controlRecipes);
-// window.addEventListener('load', controlRecipes);
-
-const clearBookmarks = function () {
-  localStorage.clear('bookmarks');
-};
-// clearBookmarks();
