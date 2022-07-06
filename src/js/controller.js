@@ -22,13 +22,14 @@ const controlRecipes = async function () {
     // 0) Update results view to mark selected search result
     resultsView.update(model.getSearchResultsPage());
 
-    // 1) Loading recipe
-    await model.loadRecipe(id);
-    // 2) Rendering recipe
-    recipeView.render(model.state.recipe);
-
-    // 3) Update bookmarks view
+    // 1) Update bookmarks view
     bookmarksView.update(model.state.bookmarks);
+
+    // 2) Loading recipe
+    await model.loadRecipe(id);
+
+    // 3) Rendering recipe
+    recipeView.render(model.state.recipe);
   } catch (err) {
     recipeView.renderError();
     console.error(err);
@@ -100,3 +101,8 @@ const init = function () {
 init();
 // window.addEventListener('hashchange', controlRecipes);
 // window.addEventListener('load', controlRecipes);
+
+const clearBookmarks = function () {
+  localStorage.clear('bookmarks');
+};
+clearBookmarks();
